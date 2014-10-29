@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Doughnut Chart</title>
+    <link href="/jqChartJQueryPlugin_3_8_7_0/css/bootstrap-3.2.0/dist/css/bootstrap.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+            background-color: #e6eeff;
+        }
+
+        #canvas-holder,#canvas-holder-earnings {
+            width: 30%;
+        }
+
+        li {
+            display: inline;
+            margin-left: 20px;
+        }
+
+        span {
+            margin-right: 5px;
+        }
+
+        span:before {
+            content: '';
+            width: 20px;
+            /* height: 20px; */
+            display: inline-block;
+        }
+
+        #oval_parent {
+            width: 210px;
+            overflow: hidden;
+        }
+
+        #oval {
+            width: 190px;
+            height: 35px;
+            margin: 10px 0;
+            background: #cedaf1;
+            border-radius: 230px / 50px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="canvas-holder" class="container">
+    <canvas id="chart-area" width="560" height="600"/>
+</div>
+<div id="oval_parent" class="container">
+    <div id="oval"></div>
+</div>
+<div class="J_legend"></div>
+<div id="canvas-holder-earnings" class="container">
+    <canvas id="chart-area-earnings" width="560" height="600"/>
+</div>
+
+
+<script src="/jqChartJQueryPlugin_3_8_7_0/js/jquery-1.11.1.min.js"></script>
+<script src="../../chart-js/Chart.js-master/Chart.js"></script>
+<!--<script src="js/chart-pie-enhanced.js"></script>-->
+<script src="js/pie.js"></script>
+</body>
+</html>

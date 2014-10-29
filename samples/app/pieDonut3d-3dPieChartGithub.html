@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div id="canvas"></div>
+<script src="../../js/jquery-1.11.1.min.js" type="text/javascript"></script>
+<script src="../../3D-Pie-chart-master/js/raphael-min.js"></script>
+<script src="../../3D-Pie-chart-master/js/pie.js"></script>
+<script>
+    var colors = ["#00ff00", "#ff0011", "#faf600"]
+    $.getJSON('data.json', function (data) {
+        var arr=[],arrPercentage=[]
+        $.each(data.data, function (i,n) {
+            arr.push(i+' '+n);
+            arrPercentage.push(parseInt(n));
+        })
+//        var arr = ["卖品 33%", "会员卡充值 33%", "票房 33%"];
+//        var arrPercentage = [33, 33, 33];
+        Raphael('canvas', 700, 500).pie({
+            values: arrPercentage,
+            colors: colors,
+            tooltip: ["卖品", "会员卡充值", "票房"],
+            doughnut: true,
+            radius: 0,
+            chartTitle: "总收入 18，874 元",
+            legend: {
+                display: true,
+                items: arr
+            }
+        });
+    })
+</script>
+</body>
+</html>
