@@ -4,21 +4,18 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>amCharts examples</title>
-    <link rel="stylesheet" href="style.css" type="text/css">
-    <script src="../amcharts/amcharts.js" type="text/javascript"></script>
-    <script src="../amcharts/serial.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="../../amcharts_3.11.2.free/samples/style.css" type="text/css">
+    <script src="../../amcharts_3.11.2.free/amcharts/amcharts.js" type="text/javascript"></script>
+    <script src="../../amcharts_3.11.2.free/amcharts/serial.js" type="text/javascript"></script>
 
     <script type="text/javascript">
-        function updateChart() {
-            console.log(1);
-
-        }
         var chartData = [];
-        generateChartData();
+        var numberDate = 500;
+        chartData = generateChartData(numberDate);
 
         var chart = AmCharts.makeChart("chartdiv", {
             type: "serial",
-            pathToImages: "../amcharts/images/",
+            pathToImages: "../../amcharts_3.11.2.free/amcharts/images/",
             dataProvider: chartData,
             categoryField: "date",
             categoryAxis: {
@@ -29,9 +26,11 @@
             },
             valueAxes: [{
                 axisAlpha: 0.2,
-                id: "v1"
+                id: "v1",
+                axisZoomed: function () {
+                    alert('it is test code.');
+                }
             }],
-
             graphs: [{
                 title: "red line",
                 id: "g1",
@@ -47,7 +46,8 @@
             }],
             chartCursor: {
                 fullWidth: true,
-                cursorAlpha: 0.1
+                cursorAlpha: 0.1,
+                pan: true
             },
             chartScrollbar: {
                 scrollbarHeight: 40,
@@ -58,19 +58,39 @@
 
             mouseWheelZoomEnabled: true
         });
-
-        chart.addListener("dataUpdated", zoomChart);
-//        chart.addListener("drawn", function () {
-//            console.log(1)
-//
-//        });
-
+        var valueAxis=new AmCharts.ValueAxis();
+        valueAxis.addListener('axisZoomed', function () {
+            alert('it is test code.');
+        })
+        chart.addListener("dataUpdated", function func() {
+            zoomChart(chartData)
+        });
+        chart.addValueAxis(valueAxis)
+//        chart.valueAxes.addListener("axisZoomed", handleZoom);
+        // this method is called when chart is first inited as we listen for "dataUpdated" event
+        function zoomChart(chartData) {
+            // different zoom methods can be used - zoomToIndexes, zoomToDates, zoomToCategoryValues
+            chart.zoomToIndexes(0, 5 - 1);
+        }
+        var isLoad = true;
+        function handleZoom(event) {
+            if (isLoad) {
+                console.log(event)
+                if (event.endIndex == 5) {
+                    isLoad = false;
+                    chartData = generateChartData(--numberDate - 1);
+                    chart.dataProvider = chartData
+                    chart.validateData();
+                }
+            }
+        }
         // generate some random data, quite different range
-        function generateChartData() {
+        function generateChartData(numberDate) {
+            var arr = []
             var firstDate = new Date();
-            firstDate.setDate(firstDate.getDate() - 500);
+            firstDate.setDate(firstDate.getDate() - numberDate);
 
-            for (var i = 0; i < 500; i++) {
+            for (var i = 0; i <= 5; i++) {
                 // we create date objects here. In your data, you can have date strings
                 // and then set format of your dates using chart.dataDateFormat property,
                 // however when possible, use date objects, as this will speed up chart rendering.
@@ -79,24 +99,12 @@
 
                 var visits = Math.round(Math.random() * 40) - 20;
 
-                chartData.push({
+                arr.push({
                     date: newDate,
                     visits: visits
                 });
             }
-        }
-
-        // this method is called when chart is first inited as we listen for "dataUpdated" event
-        function zoomChart() {
-            // different zoom methods can be used - zoomToIndexes, zoomToDates, zoomToCategoryValues
-            chart.zoomToIndexes(chartData.length - 40, chartData.length - 1);
-            var chartCursor = chart.chartCursor;
-            chartCursor.pan = true;
-            chart.addListener("drawn", function () {
-                console.log(1)
-
-            });
-            chart.validateNow();
+            return arr
         }
 
         // changes cursor mode from pan to select
