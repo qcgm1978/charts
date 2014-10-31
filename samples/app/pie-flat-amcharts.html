@@ -29,11 +29,19 @@
                 chart.dataProvider = chartData;
                 chart.titleField = "country";
                 chart.valueField = "litres";
+                chart.colors=['rgb(124, 181, 236)','rgb(124, 181, 236)','rgb(124, 181, 236)'];
+                chart.color='#fff'
                 chart.outlineColor = "#FFFFFF";
                 chart.outlineAlpha = 0.8;
                 chart.outlineThickness = 8;
+                chart. allLabels=[{
+                    "bold": true
+//                    size:12
+                }];
                 chart.labelText='[[title]]';
-                chart.labelRadius=-30;
+                chart.balloonText='[[title]]: [[percents]]%';
+                chart.fontSize=18;
+                chart.labelRadius=-50;
 
                 // WRITE
                 chart.write("chartdiv");
