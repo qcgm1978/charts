@@ -31,9 +31,9 @@
         error: function () {
             var data = {
                 "data": {
-                    "卖品": "7%",
-                    "会员卡充值": "61%",
-                    "票房": "32%"
+                    "卖品": 7,
+                    "会员卡充值": 61,
+                    "票房": 32
                 }
 
             };
@@ -42,14 +42,7 @@
     });
     function generatePie(pieData) {
         var chart;
-        var arr = [];
-        $.each(pieData.data, function (i, n) {
-            arr.push({
-                name: i,
-                val: parseInt(n)
-            })
-        });
-        var chartData = arr;
+        var chartData = pieData;
         AmCharts.ready(function () {
             // PIE CHART
             chart = new AmCharts.AmPieChart();
