@@ -29,8 +29,8 @@
             generatePie(data)
         },
         error: function () {
-            var data={
-                "data":{
+            var data = {
+                "data": {
                     "卖品": "7%",
                     "会员卡充值": "61%",
                     "票房": "32%"
@@ -67,7 +67,7 @@
                 markerBorderAlpha: 0,
 //                useGraphSettings:true,
                 valueFunction: function (data, def) {
-                    return def+'%';
+                    return def + '%';
                 }
 //                useMarkerColorForLabels:true
 //                useMarkerColorForLabels:false
@@ -77,8 +77,9 @@
 //                markerBorderAlpha:52
 //                horizontalGap:55
 //                data:[{title: "One", color: "#3366CC"},{title: "Two", color: "#FFCC33"}]
-            },
-                    chart.dataProvider = chartData;
+            };
+            chart.dataProvider = chartData;
+//            chart.theme="patterns";
             chart.titleField = 'name';
             chart.valueField = 'val';
             chart.sequencedAnimation = true;

@@ -94,16 +94,15 @@
                 return;
             }
             if (target.index - target.previousIndex < 0) {
-                if (today.getTime() < chart.dataProvider[numberShowed].date.getTime()) {
-                    console.log('last showed')
+                if (today.getTime() <= chart.dataProvider[numberShowed].date.getTime()) {
+//                    console.log('last showed')
                 } else {
                     chartData = generateChartData(--numberDate);
                     chart.dataProvider = chartData
                     chart.validateData();
                 }
             } else {
-                console.log('right pan')
-                console.log(new Date(event.end).getDate(), chart.dataProvider[numberShowed-1].date.getDate())
+//                console.log('right pan')
                 chartData = generateChartData(++numberDate);
                 chart.dataProvider = chartData
                 chart.validateData();
