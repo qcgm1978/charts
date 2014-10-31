@@ -17,18 +17,20 @@
 </head>
 <body>
 <div id="chartdiv"></div>
+<script src="/jqChartJQueryPlugin_3_8_7_0/js/jquery-1.11.1.min.js"></script>
 <script src="js/amcharts.js" type="text/javascript"></script>
 <script src="js/serial.js" type="text/javascript"></script>
 <script>
+    var isJointDebug=false;
+
     const numberShowed = 6;
     var numberDate = 6;
     var chartData = [];
 
     var today = new Date();
-    chartData = generateChartData(numberDate);
-
     function generateChartData(numberDate) {
         var arr = []
+
         var today = new Date();
         var firstDay = today.getDate() - numberDate;
         today.setDate(firstDay ? firstDay : 1);
@@ -40,88 +42,100 @@
             var newDate = new Date(today);
             newDate.setDate(newDate.getDate() + i);
 
-            var visits = Math.round(Math.random() * 40) - 20;
+            var val = Math.round(Math.random() * 40) - 20;
 
             arr.push({
                 date: newDate,
-                visits: visits
+                val: val
             });
         }
         return arr
     }
 
     AmCharts.ready(function () {
-        // chart code will go here
-        var chart = new AmCharts.AmSerialChart();
-        chart.dataProvider = chartData;
-        chart.categoryField = "date";
+
+        $.getJSON('line-data.json', function (data) {
+            if (isJointDebug) {
+                chartData = data;
+            } else {
+                chartData = generateChartData(numberDate);
+            }
+
+            // chart code will go here
+            var chart = new AmCharts.AmSerialChart();
+            chart.dataProvider = chartData;
+            chart.categoryField = "date";
 //        chart.angle = 30;
 //        chart.depth3D = 15;
 
-        var graph = new AmCharts.AmGraph();
-        graph.valueField = "visits";
+            var graph = new AmCharts.AmGraph();
+            graph.valueField = "val";
 //        graph.type = "column";
-        graph.type = "line";
+            graph.type = "line";
 //        graph.fillAlphas = 0.8;
 //        graph.fillAlphas = 0.5;
-        graph.balloonText = "[[category]]: <b>[[value]]</b>";
-        graph.fillAlphas = 0; // or delete this line, as 0 is default
-        graph.bullet = "round";
-        graph.lineColor = "#8d1cc6";
-        chart.addGraph(graph);
+            graph.balloonText = "[[category]]: <b>[[value]]</b>";
+            graph.fillAlphas = 0; // or delete this line, as 0 is default
+            graph.bullet = "round";
+            graph.lineColor = "#8d1cc6";
+            chart.addGraph(graph);
 
-        var categoryAxis = chart.categoryAxis;
-        categoryAxis.autoGridCount = false;
-        categoryAxis.gridCount = chartData.length;
-        categoryAxis.gridPosition = "start";
-        categoryAxis.labelRotation = 90;
+            var categoryAxis = chart.categoryAxis;
+            categoryAxis.autoGridCount = false;
+            categoryAxis.gridCount = chartData.length;
+            categoryAxis.gridPosition = "start";
+            categoryAxis.labelRotation = 90;
 
-        categoryAxis.parseDates = true;
-        categoryAxis.gridAlpha = 0.15;
-        categoryAxis.minorGridEnabled = true;
-        categoryAxis.axisColor = "#DADADA";
+            categoryAxis.parseDates = true;
+            categoryAxis.gridAlpha = 0.15;
+            categoryAxis.minorGridEnabled = true;
+            categoryAxis.axisColor = "#DADADA";
 
-        var chartCursor = new AmCharts.ChartCursor();
-        chartCursor.fullWidth = true;
-        chartCursor.cursorAlpha = 0.1;
-        chartCursor.pan = true;
+            var chartCursor = new AmCharts.ChartCursor();
+            chartCursor.fullWidth = true;
+            chartCursor.cursorAlpha = 0.1;
+            chartCursor.pan = true;
 //        chartCursor.selectWithoutZooming=true;
-        chartCursor.addListener('zoomed', handleZoom)
+            chartCursor.addListener('zoomed', handleZoom)
 
-        function handleZoom(event) {
-            var target = event.target;
-            if (isNaN(target.previousIndex)) {
-                return;
-            }
-            if (target.index - target.previousIndex < 0) {
-                if (today.getTime() <= chart.dataProvider[numberShowed].date.getTime()) {
+            function handleZoom(event) {
+                var target = event.target;
+                if (isNaN(target.previousIndex)) {
+                    return;
+                }
+                if (target.index - target.previousIndex < 0) {
+                    var date = chart.dataProvider[numberShowed].date;
+                    if(!(chart.dataProvider[numberShowed].date instanceof Date)){
+                        return;
+                    }
+                    if (today.getTime() <= date.getTime()) {
 //                    console.log('last showed')
+                    } else {
+                        chartData = generateChartData(--numberDate);
+                        chart.dataProvider = chartData
+                        chart.validateData();
+                    }
                 } else {
-                    chartData = generateChartData(--numberDate);
+//                console.log('right pan')
+                    chartData = generateChartData(++numberDate);
                     chart.dataProvider = chartData
                     chart.validateData();
                 }
-            } else {
-//                console.log('right pan')
-                chartData = generateChartData(++numberDate);
-                chart.dataProvider = chartData
-                chart.validateData();
             }
-        }
 
-        chart.addChartCursor(chartCursor);
+            chart.addChartCursor(chartCursor);
 
 
-        chart.addListener("dataUpdated", function func() {
-            zoomChart(chartData)
-        });
-        function zoomChart(chartData) {
-            // different zoom methods can be used - zoomToIndexes, zoomToDates, zoomToCategoryValues
+            chart.addListener("dataUpdated", function func() {
+                zoomChart(chartData)
+            });
+            function zoomChart(chartData) {
+                // different zoom methods can be used - zoomToIndexes, zoomToDates, zoomToCategoryValues
 //            chart.zoomToIndexes(0, numberDate-1);
-        }
+            }
 
-        chart.write('chartdiv');
-
+            chart.write('chartdiv');
+        })
     });
 
 </script>
