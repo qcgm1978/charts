@@ -22,7 +22,7 @@
                 legend: {
                     visible: true,
                     allowHideSeries: true,
-                    location : 'bottom',
+                    location: 'bottom',
                     border: {
                         lineWidth: 2
                     },
@@ -56,7 +56,7 @@
                 ]
             });
             $('.J_toggle').on('click', function () {
-                $('.J_compatibility').toggle();
+                $(this).next().find('img').toggle()
             })
         });
     </script>
@@ -68,10 +68,23 @@
 <p>Uses pure HTML5 Canvas. No plug-ins. Cross browser. Mobile Devices. Retina ready. Export to Image/PDF. Blazing
     performance.</p>
 
-<p>Compatibility:<a class="J_toggle" href="javascript:void 0;">toggle visibility</a><a href="http://caniuse.com/#search=canvas"
-                                                              target="_blank"><img class="J_compatibility"
-                                                                                   src="/jqChartJQueryPlugin_3_8_7_0/samples/app/images/compatiblity.png"
-                                                                                   style="display: none;"></a></p>
+<p>Compatibility:<a class="J_toggle" href="javascript:void 0;">svg</a><a
+        href="http://caniuse.com/#search=svg"
+        target="_blank"><img class="J_compatibility"
+                             src="/jqChartJQueryPlugin_3_8_7_0/docs/svg-support.png"
+                             style="display: none;"></a>
+    <a class="J_toggle" href="javascript:void 0;">canvas</a><a
+            href="http://caniuse.com/#search=canvas"
+            target="_blank"><img class="J_compatibility"
+                                 src="/jqChartJQueryPlugin_3_8_7_0/docs/canvas-support.png"
+                                 style="display: none;"></a>
+</p>
+
+<p>comparison:SVG and Canvas<a class="J_toggle" href="javascript:void 0;">toggle visibility</a><a
+        href="http://bbs.html5cn.org/thread-84774-1-1.html"
+        target="_blank"><img class="J_compatibility"
+                             src="/jqChartJQueryPlugin_3_8_7_0/docs/svg-vs-canvas.png"
+                             style="display: none;"></a></p>
 
 <div>
     <div id="jqChart" style="width: 500px; height: 300px;"></div>
