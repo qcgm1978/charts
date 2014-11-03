@@ -10,8 +10,14 @@
 
 
 ## Overview
-The introduction link: 
+1. The introduction link: 
 [About](samples/app/intro-lineChart-no-interaction-jqChart.htm)
+
+2. Compatibility:
+Screen resolution:
+    * ios:640x960 640x1136 1242x2208  750x1334
+    * 安卓：720x1280  1080x1920
+    
 
 
 ## Dependencies
@@ -52,7 +58,8 @@ Interactive
 
 
 ## Examples
-#### Htmls of app folder in root directory
+1. Htmls of app folder in root directory
+2. Online demo: http://runjs.cn/code/cey09ean
 
 
 ## License and Copyright

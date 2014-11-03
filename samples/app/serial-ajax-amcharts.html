@@ -22,7 +22,7 @@
 <script src="js/serial.js" type="text/javascript"></script>
 <script>
     var isJointDebug = false;
-    function generateChartData(numberDate) {
+    function generateChartData(numberDate, axisVal) {
         var arr = []
 
         var today = new Date();
@@ -36,12 +36,13 @@
             var newDate = new Date(today);
             newDate.setDate(newDate.getDate() + i);
 
-            var val = Math.round(Math.random() * 40) - 20;
-
-            arr.push({
-                date: newDate,
-                val: val
+            var items = {
+                date: newDate
+            };
+            $.each(axisVal, function (i, n) {
+                items[n.val] = Math.round(Math.random() * 40) - 20;
             });
+            arr.push(items);
         }
         return arr
     }
@@ -49,17 +50,17 @@
         if (isJointDebug) {
             chartData = data;
         } else {
-            chartData = generateChartData(numberDate);
+            chartData = generateChartData(numberDate, axisVal);
         }
     }
-    function getChartDataAsPan(num) {
+    function displayNewChartDataAsPan(num) {
         if (isJointDebug) {
             $.getJSON(url, function (data) {
-                chart.dataProvider = chartData
+                chart.dataProvider = data;
                 chart.validateData();
             });
         } else {
-            chartData = generateChartData(numberDate);
+            chartData = generateChartData(numberDate, axisVal);
             chart.dataProvider = chartData
             chart.validateData();
         }
@@ -67,6 +68,24 @@
 
     const url = 'line-data.json';
     const numberShowed = 6;
+    const axisVal = [
+        {
+            val: 'val1',
+            color: "#8d1cc6"
+        },
+        {
+            val: 'val2',
+            color: "#FF6600"
+        },
+        {
+            val:"val3",
+            color:"#FCD202"
+        },
+        {
+            val:"val4",
+            color:"#B0DE09"
+        }
+    ];
     var numberDate = 6;
     var chartData = [];
     var chart = null;
@@ -85,18 +104,21 @@
 //        chart.angle = 30;
 //        chart.depth3D = 15;
 
-            var graph = new AmCharts.AmGraph();
-            graph.valueField = "val";
-//        graph.type = "column";
-            graph.type = "line";
-//        graph.fillAlphas = 0.8;
-//        graph.fillAlphas = 0.5;
-            graph.balloonText = "[[category]]: <b>[[value]]</b>";
-            graph.fillAlphas = 0; // or delete this line, as 0 is default
-            graph.bullet = "round";
-            graph.lineColor = "#8d1cc6";
-            chart.addGraph(graph);
+            function addGraph(valueField, lineColor) {
+                var graph = new AmCharts.AmGraph();
+                graph.valueField = valueField;
+                graph.type = "line";
+                graph.balloonText = "[[category]]: <b>[[value]]</b>";
+                graph.fillAlphas = 0; // or delete this line, as 0 is default
+                graph.bullet = "round";
+                graph.lineColor = lineColor;
+                chart.addGraph(graph);
+            }
 
+            $.each(axisVal, function (i, n) {
+                addGraph(n.val, n.color);
+
+            });
             var categoryAxis = chart.categoryAxis;
             categoryAxis.autoGridCount = false;
             categoryAxis.gridCount = chartData.length;
@@ -128,11 +150,11 @@
                     if (today.getTime() <= date.getTime()) {
 //                    console.log('last showed')
                     } else {
-                        chartData = getChartDataAsPan(--numberDate);
+                        displayNewChartDataAsPan(--numberDate);
                     }
                 } else {
 //                console.log('right pan')
-                    chartData = getChartDataAsPan(++numberDate);
+                    displayNewChartDataAsPan(++numberDate);
 
                 }
             }
