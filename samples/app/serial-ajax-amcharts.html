@@ -21,13 +21,7 @@
 <script src="js/amcharts.js" type="text/javascript"></script>
 <script src="js/serial.js" type="text/javascript"></script>
 <script>
-    var isJointDebug=false;
-
-    const numberShowed = 6;
-    var numberDate = 6;
-    var chartData = [];
-
-    var today = new Date();
+    var isJointDebug = false;
     function generateChartData(numberDate) {
         var arr = []
 
@@ -51,18 +45,41 @@
         }
         return arr
     }
+    function getChartData(data) {
+        if (isJointDebug) {
+            chartData = data;
+        } else {
+            chartData = generateChartData(numberDate);
+        }
+    }
+    function getChartDataAsPan(num) {
+        if (isJointDebug) {
+            $.getJSON(url, function (data) {
+                chart.dataProvider = chartData
+                chart.validateData();
+            });
+        } else {
+            chartData = generateChartData(numberDate);
+            chart.dataProvider = chartData
+            chart.validateData();
+        }
+    }
+
+    const url = 'line-data.json';
+    const numberShowed = 6;
+    var numberDate = 6;
+    var chartData = [];
+    var chart = null;
+
+    var today = new Date();
 
     AmCharts.ready(function () {
 
-        $.getJSON('line-data.json', function (data) {
-            if (isJointDebug) {
-                chartData = data;
-            } else {
-                chartData = generateChartData(numberDate);
-            }
+        $.getJSON(url, function (data) {
+            getChartData(data);
 
             // chart code will go here
-            var chart = new AmCharts.AmSerialChart();
+            chart = new AmCharts.AmSerialChart();
             chart.dataProvider = chartData;
             chart.categoryField = "date";
 //        chart.angle = 30;
@@ -105,34 +122,22 @@
                 }
                 if (target.index - target.previousIndex < 0) {
                     var date = chart.dataProvider[numberShowed].date;
-                    if(!(chart.dataProvider[numberShowed].date instanceof Date)){
+                    if (!(chart.dataProvider[numberShowed].date instanceof Date)) {
                         return;
                     }
                     if (today.getTime() <= date.getTime()) {
 //                    console.log('last showed')
                     } else {
-                        chartData = generateChartData(--numberDate);
-                        chart.dataProvider = chartData
-                        chart.validateData();
+                        chartData = getChartDataAsPan(--numberDate);
                     }
                 } else {
 //                console.log('right pan')
-                    chartData = generateChartData(++numberDate);
-                    chart.dataProvider = chartData
-                    chart.validateData();
+                    chartData = getChartDataAsPan(++numberDate);
+
                 }
             }
 
             chart.addChartCursor(chartCursor);
-
-
-            chart.addListener("dataUpdated", function func() {
-                zoomChart(chartData)
-            });
-            function zoomChart(chartData) {
-                // different zoom methods can be used - zoomToIndexes, zoomToDates, zoomToCategoryValues
-//            chart.zoomToIndexes(0, numberDate-1);
-            }
 
             chart.write('chartdiv');
         })
