@@ -29,11 +29,11 @@ function generateChartData(numberDate, axisVal) {
     return arr
 }
 function getChartData(data) {
-    var arr=[];
+    var arr = [];
     if (isJointDebug) {
         arr = data;
     } else {
-        arr=generateChartData(numberDate, axisVal);
+        arr = generateChartData(numberDate, axisVal);
     }
     return arr;
 }
@@ -60,19 +60,30 @@ var chart = null;
 var today = new Date();
 
 AmCharts.ready(function () {
+    function hasSVG() {
+        SVG_NS = 'http://www.w3.org/2000/svg';
+        return !!document.createElementNS && !!document.createElementNS(SVG_NS, 'svg').createSVGRect;
+    }
 
+    if(!(hasSVG())){
+        alert('您当前使用的浏览器不支持本页面的图表展示');
+        return;
+    }
     $.getJSON(url, function (data) {
-        chartData=getChartData(data);
+        chartData = getChartData(data);
 
         // chart code will go here
         chart = new AmCharts.AmSerialChart();
         chart.dataProvider = chartData;
         chart.categoryField = "date";
+        chart.legend= {
+            "useGraphSettings": true
+        };
 //        chart.angle = 30;
 //        chart.depth3D = 15;
 
         function addGraph(valueField, lineColor) {
-            var graph = new AmCharts.AmGraph();
+            graph = new AmCharts.AmGraph();
             graph.valueField = valueField;
             graph.type = "line";
             graph.balloonText = "[[category]]: <b>[[value]]</b>";
@@ -100,11 +111,12 @@ AmCharts.ready(function () {
         var chartCursor = new AmCharts.ChartCursor();
         //chartCursor.enabled=false;
         //chartCursor.fullWidth = true;
-        chartCursor.cursorAlpha=0;
-        chartCursor.valueLineBalloonEnabled=false;
-        chartCursor.categoryBalloonEnabled=false;
+        chartCursor.cursorAlpha = 0;
+        chartCursor.valueLineBalloonEnabled = false;
+        chartCursor.categoryBalloonEnabled = false;
+        //chartCursor.valueBalloonsEnabled=false;
         //show balloon only when hover the bullet
-        chartCursor.valueBalloonsEnabled=false;
+        chartCursor.valueBalloonsEnabled = false;
         chartCursor.pan = true;
         chartCursor.addListener('zoomed', handleZoom)
 
