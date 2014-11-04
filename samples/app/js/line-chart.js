@@ -3,6 +3,7 @@
  @module draw line chart including single and multi-lines chart
 
  **/
+
 var isJointDebug = false;
 function generateChartData(numberDate, axisVal) {
     var arr = [];
