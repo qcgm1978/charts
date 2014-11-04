@@ -5,7 +5,7 @@
  **/
 var isJointDebug = false;
 function generateChartData(numberDate, axisVal) {
-    var arr = []
+    var arr = [];
 
     var today = new Date();
     var firstDay = today.getDate() - numberDate;
@@ -98,10 +98,14 @@ AmCharts.ready(function () {
         categoryAxis.axisColor = "#DADADA";
 
         var chartCursor = new AmCharts.ChartCursor();
-        chartCursor.fullWidth = true;
-        chartCursor.cursorAlpha = 0.1;
+        //chartCursor.enabled=false;
+        //chartCursor.fullWidth = true;
+        chartCursor.cursorAlpha=0;
+        chartCursor.valueLineBalloonEnabled=false;
+        chartCursor.categoryBalloonEnabled=false;
+        //show balloon only when hover the bullet
+        chartCursor.valueBalloonsEnabled=false;
         chartCursor.pan = true;
-//        chartCursor.selectWithoutZooming=true;
         chartCursor.addListener('zoomed', handleZoom)
 
         function handleZoom(event) {
