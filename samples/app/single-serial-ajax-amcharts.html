@@ -10,17 +10,16 @@
             height: 100%;
         }
 
-        #chartdiv {
+        #J_chartdiv {
             height: 80%;
         }
     </style>
 </head>
 <body>
-<div id="chartdiv"></div>
+<div id="J_chartdiv"></div>
 <script src="/jqChartJQueryPlugin_3_8_7_0/js/jquery-1.11.1.min.js"></script>
 <script src="js/amcharts.js" ></script>
 <script src="js/serial.js" ></script>
-<script src="js/line-chart.js" ></script>
 <script>
 
     const axisVal = [
@@ -30,6 +29,8 @@
         }
     ];
     const url = 'line-data.json';
+    var chartId = 'J_chartdiv';
 </script>
+<script src="js/line-chart.js" ></script>
 </body>
 </html>

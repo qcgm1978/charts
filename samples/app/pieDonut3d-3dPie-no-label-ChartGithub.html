@@ -13,9 +13,9 @@
     var colors = ["#00ff00", "#ff0011", "#faf600"]
     $.getJSON('data.json', function (data) {
         var arr=[],arrPercentage=[]
-        $.each(data.data, function (i,n) {
-            arr.push(i+' '+n);
-            arrPercentage.push(parseInt(n));
+        $.each(data, function (i,n) {
+            arrPercentage.push(parseInt(n.val));
+            arr.push(n.name+' '+ n.val);
         })
 //        var arr = ["卖品 33%", "会员卡充值 33%", "票房 33%"];
 //        var arrPercentage = [33, 33, 33];

@@ -27,7 +27,13 @@ AmCharts.Class = function (a) {
             a, b);
         this.events[a].push({handler: b, scope: c})
     }, b.prototype.removeListener = function (a, b, c) {
-        if (a && a.events)for (a = a.events[b], b = a.length - 1; 0 <= b; b--)a[b].handler === c && a.splice(b, 1)
+        try {
+            if (a && a.events)
+                for (a = a.events[b], b = a.length - 1; 0 <= b; b--)
+                    a[b].handler === c && a.splice(b, 1)
+        } catch (e) {
+            console.log(e);
+        }
     }, b.prototype.fire = function (a, b) {
         for (var c = this.events[a], g = 0, h = c.length; g < h; g++) {
             var k = c[g];
