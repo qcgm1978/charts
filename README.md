@@ -1,68 +1,66 @@
-# Chart
+# Cinemas E-commerce Platform
 
 > 
 
 * [Overview](#overview)
 * [Dependencies](#dependencies)
-* [Options](#options)
+* [Development mode](#development-mode)
 * [Examples](#examples)
 * [License and Copyright](#license-and-copyright)
 
 
 ## Overview
 1. The introduction link: 
-[About](samples/app/intro-lineChart-no-interaction-jqChart.htm)
 
 2. Compatibility:
 Screen resolution:
-    * ios:640x960 640x1136 1242x2208  750x1334
-    * 安卓：720x1280  1080x1920
+    * desktop browsers
+        * ie...
     
 
 
 ## Dependencies
-Interactive
-    1. mobile-scroll ?
-        page scrolling
-        button slide
-    2. some chart frameworks
-        lines
-            <b>slide to change date</b>
-        pie
-        donut
-    
+1. Amcharts
+2. jquery
+    * version
+    * plugins
+        * [chosen.jquery.js](http://harvesthq.github.io/chosen/)
+            * Chosen, a Select Box Enhancer for jQuery and Protoype
+        * [jQuery List DragSort](http://dragsort.codeplex.com/) 
+        * [ jQuery Pagination](http://www.jquerypagination.com/)
+        * [DATETIMEPICKER](http://jqueryplugin.net/datetimepicker-jquery-plugin-select-date-time/)
+3. **refer to [卡后台](http://172.16.1.115/?m=yushouquanbook&a=default) ?**                
+               
 
 
-## Options
-1. jqChart
-    * jquery plugin
-    
-2. 3D-Pie-chart-master
-    * 3d effect
-    * github project
-    
-3. Android-Unlock-4-Web-master
-    * for startup page of app
-    
-4. chart-js
-
-5. Highcharts-4.0.4
-    * for a pie containing text and icon in the svg elements
-    
-6. zoomcharts-trial-zoomcharts
-    * has License problem
-    
-7. amcharts_3.11.2.free
-    * donut pie 3d
-    
+## Development mode
+1. PHP
+    * initial data
+    * global variable
+    ...
+2. JS
+    * Interaction
+    * UI
+    * AJAX
+    * Login, pwd 
+    ...
+3. Language
+    * CoffeeScript
+4, Js modules: refer to 卡后台？
+    * common
+    * loading
+    * module every page
+    ...
 
 
 ## Examples
-1. Htmls of app folder in root directory
-2. Online demo: http://runjs.cn/code/cey09ean
+1. Htmls of e-commerce-platform folder in root directory
+2. Online demo: 
+    * [line chart](http://runjs.cn/code/qpf55aa2)
+    * [卡后台-活动规则-价格规则](http://172.16.1.115/?m=cardactivity&a=default)
 
 
 ## License and Copyright
-Copyright (c) 2014 undefined, contributors.
+Leying
 
 Released under the  license

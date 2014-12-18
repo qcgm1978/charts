@@ -10,13 +10,13 @@
 ## Dependencies
 {%= _.doc("Dependencies.md") %}
 
-## Development mode
-{%= _.doc("dev.md") %}
+## Options
+{%= _.doc("options.md") %}
 
 ## Examples
 {%= _.doc("examples.md") %}
 
 ## License and Copyright
-{%= author %}
+{%= copyright %}
 
 {%= license %}

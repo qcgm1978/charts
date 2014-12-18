@@ -63,7 +63,6 @@
   
   var today = new Date();
   
-  AmCharts.ready(function () {
       function hasSVG() {
           SVG_NS = 'http://www.w3.org/2000/svg';
           return !!document.createElementNS && !!document.createElementNS(SVG_NS, 'svg').createSVGRect;
@@ -152,6 +151,5 @@
           chart.addChartCursor(chartCursor);
   
           chart.write(id);
-      })
   });
 })(chartId);

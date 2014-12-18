@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<div id="chartdiv" style="width:700px; height:500px;"></div>
+<div id="J_chartdiv" style="width:700px; height:500px;"></div>
 <script src="../../js/jquery-1.11.1.min.js" type="text/javascript"></script>
 <script src="js/amcharts.js" type="text/javascript"></script>
 <script src="js/pie-amcharts.js" type="text/javascript"></script>
@@ -23,20 +23,34 @@
     $.ajax({
         async: false,
         dataType: "json",
-        url: 'data.json',
+        url: 'real-data-for-pie.json',
 //            data: data,
         success: function (data) {
-            generatePie(data)
+            function formatPieData(data) {
+                var pieData = [];
+                $.each(data, function (i, n) {
+                    pieData.push({
+                        name: i,
+                        val: parseFloat(n)
+                    })
+                });
+                return pieData;
+            }
+            var pieData = formatPieData(data.displayData.pay_way);
+            generatePie(pieData);
         },
         error: function () {
-            var data = {
-                "data": {
-                    "卖品": 7,
-                    "会员卡充值": 61,
-                    "票房": 32
+            var data = [
+                {
+                    name: "卖品", val: 7
+                } ,
+                {
+                    name: "票房", val: 32
+                },
+                {
+                    name: "会员卡充值", val: 61
                 }
-
-            };
+            ];
             generatePie(data)
         }
     });
@@ -90,7 +104,7 @@
             }
 
             // WRITE
-            chart.write("chartdiv");
+            chart.write("J_chartdiv");
         });
     }
 
